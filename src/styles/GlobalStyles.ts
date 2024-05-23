@@ -12,6 +12,10 @@ const GlobalStyles = createGlobalStyle`
     background-color: #f0f0f0;
     color: #333;
   }
+
+  html, body{
+    height: 100%;
+  }
 `;
 
 export default GlobalStyles;

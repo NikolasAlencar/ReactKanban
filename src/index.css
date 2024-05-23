@@ -1,0 +1,15 @@
+body {
+  .m-top-16 {
+    margin-top: 16px;
+  }
+
+  .responsive-img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  #root {
+    height: 100%;
+  }
+}
