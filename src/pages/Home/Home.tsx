@@ -1,4 +1,5 @@
 import NewColumn from "../../components/Column/Column";
+import Kanban from "../../components/Kanban/Kanban";
 import { InitialData } from "../../components/Kanban/initialData";
 import { Card } from "./Home.style";
 
@@ -75,13 +76,16 @@ const Home = () => {
   };
 
   return (
-    <Card>
-      {initialData.columnOrder.map((columnId) => {
-        const column = initialData.columns[columnId];
-        const tasks = column.taskIds.map((taskId) => initialData.tasks[taskId]);
+    // <Card>
+    //   {initialData.columnOrder.map((columnId) => {
+    //     const column = initialData.columns[columnId];
+    //     const tasks = column.taskIds.map((taskId) => initialData.tasks[taskId]);
 
-        return <NewColumn key={column.id} column={column} tasks={tasks} />;
-      })}
+    //     return <NewColumn key={column.id} column={column} tasks={tasks} />;
+    //   })}
+    // </Card>
+    <Card>
+      <Kanban></Kanban>
     </Card>
   );
 };

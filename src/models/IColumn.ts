@@ -2,5 +2,5 @@ export type Column = {
     id: string;
     title: string;
     taskIds: string[];
-    author: string;
+    author?: string;
   };
