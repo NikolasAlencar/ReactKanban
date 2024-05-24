@@ -1,5 +1,4 @@
 import { StyledHeader, StyledSvg } from "./Header.style";
-import { ReactComponent as House } from "../../assets/house.svg";
 import { useNavigate } from "react-router-dom";
 
 const Header = () => {
@@ -7,9 +6,7 @@ const Header = () => {
 
   return (
     <StyledHeader>
-      <StyledSvg>
-        <House onClick={() => navigate("")} />
-      </StyledSvg>
+      <StyledSvg onClick={() => navigate("")} />
       Kanban | Welcome screen
     </StyledHeader>
   );

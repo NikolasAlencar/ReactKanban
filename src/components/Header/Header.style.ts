@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { ReactComponent as House } from "../../assets/house.svg";
 
 export const StyledHeader = styled.header`
   background-color: white;
@@ -14,7 +15,7 @@ export const StyledHeader = styled.header`
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 `;
 
-export const StyledSvg = styled.svg`
+export const StyledSvg = styled(House)`
   height: 16px;
   width: 16px;
   margin-right: 8px;
