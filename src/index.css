@@ -9,6 +9,12 @@ body {
     height: auto;
   }
 
+  .flex-align-center{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   #root {
     height: 100%;
   }
