@@ -8,7 +8,7 @@ export const StyledColumn = styled.div`
 `;
 
 export const StyledContainer = styled.div`
-  border-top: 1px solid #3333332e;
+  border-top: 1px solid #ff00009c;
   border-bottom: 1px solid #3333331f;
   padding: 8px;
   margin: 8px;

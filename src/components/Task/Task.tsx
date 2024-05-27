@@ -1,8 +1,7 @@
-import { Task } from "../Kanban/initialData";
+import { Task } from "../../models/ITask";
 import { Container, StyledP, StyledPriority, StyledSvg } from "./Task.style";
 
 const NewTask = ({ task }: { task: Task }) => {
-  console.log(task);
   return (
     <Container>
       <StyledP>{task.content}</StyledP>
