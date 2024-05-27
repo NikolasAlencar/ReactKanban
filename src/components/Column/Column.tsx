@@ -15,15 +15,21 @@ const NewColumn = ({ column, tasks }: { column: Column; tasks: Task[] }) => {
       <StyledTitle>{column.author}</StyledTitle>
       <Droppable droppableId={column.id}>
         {(provided, snapshot) => (
-          <StyledContainer ref={provided.innerRef} {...provided.droppableProps}>
-            <StyledTitle>
-              {column.title} | {tasks.length}
-            </StyledTitle>
-            {tasks.map((task, index) => (
-              <NewTask key={task.id} task={task} index={index} />
-            ))}
-            {provided.placeholder}
-          </StyledContainer>
+          <>
+            <StyledContainer
+              ref={provided.innerRef}
+              {...provided.droppableProps}
+            >
+              <StyledTitle>
+                {column.title} | {tasks.length}
+              </StyledTitle>
+              {tasks.map((task, index) => (
+                <NewTask key={task.id} task={task} index={index} />
+              ))}
+              {provided.placeholder}
+            </StyledContainer>
+            <StyledSpan>+</StyledSpan>
+          </>
         )}
       </Droppable>
     </StyledColumn>

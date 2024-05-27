@@ -3,6 +3,7 @@ import NewColumn from "../../components/Column/Column";
 import NewTask from "../../components/Task/Task";
 import { InitialData } from "../../models/IInitialData";
 import { Card } from "./Home.style";
+import { StyledTitle } from "../../components/Column/Column.style";
 
 const Home = () => {
   const initialData: InitialData = {
@@ -49,9 +50,9 @@ const Home = () => {
     },
     columnOrder: ["column-1", "column-2", "column-3"],
     holdTasks: [
-      { id: "task-1", content: "Take out the garbage", priority: "low" },
-      { id: "task-2", content: "Watch my favorite show", priority: "high" },
-      { id: "task-3", content: "Charge my phone" },
+      { id: "task-4", content: "Take out the garbage", priority: "low" },
+      { id: "task-5", content: "Watch my favorite show", priority: "high" },
+      { id: "task-6", content: "Charge my phone" },
     ],
   };
 
@@ -74,17 +75,28 @@ const Home = () => {
           })}
         </Card>
 
-        <Droppable droppableId="holdTasks">
-          {(provided, snapshot) => (
-            <section style={{display: "flex"}} ref={provided.innerRef} {...provided.droppableProps}>
-              {initialData.holdTasks &&
-                initialData.holdTasks.map((task, index) => (
-                  <NewTask key={task.id} task={task} index={index} />
-                ))}
-              {provided.placeholder}
-            </section>
-          )}
-        </Droppable>
+        <Card style={{ display: "block" }}>
+          <Droppable droppableId="holdTasks">
+            {(provided, snapshot) => (
+              <>
+                <StyledTitle style={{ marginBottom: "1rem" }}>
+                  Hold Tasks
+                </StyledTitle>
+                <div
+                  style={{ display: "flex" }}
+                  ref={provided.innerRef}
+                  {...provided.droppableProps}
+                >
+                  {initialData.holdTasks &&
+                    initialData.holdTasks.map((task, index) => (
+                      <NewTask key={task.id} task={task} index={index} />
+                    ))}
+                  {provided.placeholder}
+                </div>
+              </>
+            )}
+          </Droppable>
+        </Card>
       </DragDropContext>
     </>
   );
