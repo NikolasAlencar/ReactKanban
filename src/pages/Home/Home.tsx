@@ -1,3 +1,4 @@
+import { DragDropContext, DropResult, Droppable } from "react-beautiful-dnd";
 import NewColumn from "../../components/Column/Column";
 import NewTask from "../../components/Task/Task";
 import { InitialData } from "../../models/IInitialData";
@@ -54,24 +55,37 @@ const Home = () => {
     ],
   };
 
+  function onDragEnd(result: DropResult) {
+    //const { destination, source, draggableId } = result
+    console.log(result);
+  }
+
   return (
     <>
-      <Card>
-        {initialData.columnOrder.map((columnId) => {
-          const column = initialData.columns[columnId];
-          const tasks = column.taskIds.map(
-            (taskId) => initialData.tasks[taskId]
-          );
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Card>
+          {initialData.columnOrder.map((columnId) => {
+            const column = initialData.columns[columnId];
+            const tasks = column.taskIds.map(
+              (taskId) => initialData.tasks[taskId]
+            );
 
-          return <NewColumn key={column.id} column={column} tasks={tasks} />;
-        })}
-      </Card>
-      <Card>
-        {initialData.holdTasks &&
-          initialData.holdTasks.map((task, index) => (
-            <NewTask key={index} task={task} />
-          ))}
-      </Card>
+            return <NewColumn key={column.id} column={column} tasks={tasks} />;
+          })}
+        </Card>
+
+        <Droppable droppableId="holdTasks">
+          {(provided, snapshot) => (
+            <section style={{display: "flex"}} ref={provided.innerRef} {...provided.droppableProps}>
+              {initialData.holdTasks &&
+                initialData.holdTasks.map((task, index) => (
+                  <NewTask key={task.id} task={task} index={index} />
+                ))}
+              {provided.placeholder}
+            </section>
+          )}
+        </Droppable>
+      </DragDropContext>
     </>
   );
 };
