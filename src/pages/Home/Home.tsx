@@ -5,6 +5,8 @@ import { InitialData } from "../../models/IInitialData";
 import { Card } from "./Home.style";
 import { StyledTitle } from "../../components/Column/Column.style";
 import LoadingSpinner from "../../components/Loading/Loading";
+import Modal from "../../components/Modal/Modal";
+import GenericError from "../../components/GenericError/GenericError";
 
 const Home = () => {
   const initialData: InitialData = {
@@ -61,6 +63,12 @@ const Home = () => {
     //const { destination, source, draggableId } = result
     console.log(result);
   }
+
+  return (
+    <Modal>
+      <GenericError></GenericError>
+    </Modal>
+  )
 
   return(
     <LoadingSpinner></LoadingSpinner>
