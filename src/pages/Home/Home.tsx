@@ -4,6 +4,7 @@ import NewTask from "../../components/Task/Task";
 import { InitialData } from "../../models/IInitialData";
 import { Card } from "./Home.style";
 import { StyledTitle } from "../../components/Column/Column.style";
+import LoadingSpinner from "../../components/Loading/Loading";
 
 const Home = () => {
   const initialData: InitialData = {
@@ -60,6 +61,10 @@ const Home = () => {
     //const { destination, source, draggableId } = result
     console.log(result);
   }
+
+  return(
+    <LoadingSpinner></LoadingSpinner>
+  )
 
   return (
     <>

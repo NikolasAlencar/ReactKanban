@@ -14,7 +14,7 @@ const NewColumn = ({ column, tasks }: { column: Column; tasks: Task[] }) => {
     <StyledColumn>
       <StyledTitle>{column.author}</StyledTitle>
       <Droppable droppableId={column.id}>
-        {(provided, snapshot) => (
+        {(provided) => (
           <>
             <StyledContainer
               ref={provided.innerRef}
@@ -24,7 +24,7 @@ const NewColumn = ({ column, tasks }: { column: Column; tasks: Task[] }) => {
                 {column.title} | {tasks.length}
               </StyledTitle>
               {tasks.map((task, index) => (
-                <NewTask key={task.id} task={task} index={index} />
+                <NewTask key={task.id} task={task} index={index}/>
               ))}
               {provided.placeholder}
             </StyledContainer>
@@ -33,19 +33,6 @@ const NewColumn = ({ column, tasks }: { column: Column; tasks: Task[] }) => {
         )}
       </Droppable>
     </StyledColumn>
-
-    // <StyledColumn>
-    //   <StyledTitle>{column.author}</StyledTitle>
-    //   <StyledContainer>
-    //     <StyledTitle>
-    //       {column.title} | {tasks.length}
-    //     </StyledTitle>
-    //     {tasks.map((task, index) => (
-    //       <NewTask key={index} task={task} />
-    //     ))}
-    //   </StyledContainer>
-    //   <StyledSpan>+</StyledSpan>
-    // </StyledColumn>
   );
 };
 
