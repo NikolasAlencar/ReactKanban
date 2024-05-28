@@ -1,18 +1,16 @@
 import { useNavigate } from "react-router-dom";
 import { Button, Card, Icon, Label } from "./GenericError.style";
 
-const GenericError = () => {
+const GenericError = ({ error }: { error: string }) => {
   const navigate = useNavigate();
-
-  function returnWelcomeScreen() {
-    navigate("/");
-  }
 
   return (
     <Card>
       <Icon>😞</Icon>
-      <Label>Desculpe, houve algum erro ao consultar dados!</Label>
-      <Button type="button" onClick={returnWelcomeScreen}>
+      <Label>
+        Desculpe, tivemos o seguinte erro ao consultar dados: {error}
+      </Label>
+      <Button type="button" onClick={() => navigate("/")}>
         Retornar ao início
       </Button>
     </Card>
