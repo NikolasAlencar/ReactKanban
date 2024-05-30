@@ -1,6 +1,9 @@
-const theme = {
-  primary: "#007bff",
-  secondary: "#6c757d",
+export const themeLight = {
+  body: "#f0f0f0",
+  color: "black",
 };
 
-export default theme;
+export const themeDark = {
+  body: "#00000073",
+  color: "white",
+};

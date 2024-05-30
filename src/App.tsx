@@ -1,15 +1,18 @@
 import { ThemeProvider } from "styled-components";
 import GlobalStyles from "./styles/GlobalStyles";
-import theme from "./styles/theme";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Header from "./components/Header/Header";
 import Welcome from "./pages/Welcome/Welcome";
 import Home from "./pages/Home/Home";
-import { UserDataBoard } from "./contexts/UserContext";
+import { UserContext, UserDataBoard } from "./contexts/UserContext";
+import { useContext } from "react";
+import { themeDark, themeLight } from "./styles/theme";
 
 const App = () => {
+  const { toggleTheme } = useContext(UserContext);
+
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={toggleTheme === "dark" ? themeDark : themeLight}>
       <GlobalStyles />
       <BrowserRouter>
         <UserDataBoard>

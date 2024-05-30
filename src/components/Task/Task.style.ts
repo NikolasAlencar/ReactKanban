@@ -11,9 +11,6 @@ export const Container = styled(StyledContainer)`
   border-radius: 8px;
   box-shadow: 0 4px 10px rgb(255 0 0 / 20%);
   min-width: 160px;
-  /* box-shadow: 0 4px 10px rgb(255 0 0 / 20%); */
-  /* box-shadow: 0 4px 10px rgb(255 0 0 / 20%); */
-  /* box-shadow: 0 4px 10px rgb(255 0 0 / 20%); */
 `;
 
 export const StyledP = styled(StyledTitle)`

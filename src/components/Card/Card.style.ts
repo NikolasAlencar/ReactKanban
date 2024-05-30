@@ -1,9 +1,9 @@
 import styled from "styled-components";
 
 export const StyledCard = styled.section`
-  background-color: white;
+  background: ${(props) => props.theme.body};
   margin: 2rem 10px;
-  color: black;
+  color: ${(props) => props.theme.color};
   padding: 20px;
   display: flex;
   align-items: center;

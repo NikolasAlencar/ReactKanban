@@ -7,4 +7,5 @@ export const StyledModalContainer = styled.div`
   position: fixed;
   height: 100%;
   width: 100%;
+  background: #0000008c;
 `;

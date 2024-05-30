@@ -7,7 +7,7 @@ import { InitialData } from "../../models/IInitialData";
 
 const Board = ({ initialData }: { initialData: InitialData }) => {
   function onDragEnd(result: DropResult) {
-    //const { destination, source, draggableId } = result
+    // const { destination, source, draggableId } = result
     console.log(result);
   }
 

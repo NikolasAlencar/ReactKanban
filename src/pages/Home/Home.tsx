@@ -7,7 +7,7 @@ import Modal from "../../components/Modal/Modal";
 import axios from "axios";
 import { InitialData } from "../../models/IInitialData";
 import { API_URL } from "../../environments/environment";
-import useFetch from "../../hooks/useFetch";
+import ThemeSwitcher from "../../components/ThemeSwitcher/ThemeSwitcher";
 
 const Home = () => {
   const { loading, error, dataBoard, setLoading, setDataBoard, setError } =
@@ -38,6 +38,8 @@ const Home = () => {
 
   return (
     <>
+      <ThemeSwitcher />
+
       {error && (
         <Modal>
           <GenericError error={error} />

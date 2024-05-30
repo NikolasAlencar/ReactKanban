@@ -2,10 +2,10 @@ import styled from "styled-components";
 import { ReactComponent as House } from "../../assets/house.svg";
 
 export const StyledHeader = styled.header`
-  background-color: white;
+  background: ${(props) => props.theme.body};
   margin: 10px;
   max-width: 220px;
-  color: black;
+  color: ${(props) => props.theme.color};
   padding: 14px;
   display: flex;
   align-items: center;

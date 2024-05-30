@@ -27,22 +27,6 @@ const NewTask = ({ task, index }: { task: Task }) => {
         </Container>
       )}
     </Draggable>
-
-    // <Container>
-    //   <StyledP>{task.content}</StyledP>
-    //   <StyledP>
-    //     {task.id}
-    //     {task.priority && (
-    //       <StyledPriority priority={task.priority}>
-    //         {task.priority}
-    //       </StyledPriority>
-    //     )}
-    //   </StyledP>
-    //   <StyledP className="flex-align-center">
-    //     <StyledSvg />
-    //     {task.author}
-    //   </StyledP>
-    // </Container>
   );
 };
 

@@ -11,6 +11,7 @@ export const StyledWelcome = styled.div`
 
 export const StyledImg = styled.img`
   opacity: 0.3;
+  mix-blend-mode: multiply;
 `;
 
 export const StyledH1 = styled.h1`
