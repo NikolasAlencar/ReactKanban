@@ -45,7 +45,7 @@ const Home = () => {
 
       {loading && <LoadingSpinner />}
 
-      {dataBoard && <Board initialData={dataBoard} />}
+      {dataBoard && <Board initialData={dataBoard} setDataBoard={setDataBoard} />}
     </>
   );
 };

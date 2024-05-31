@@ -48,17 +48,17 @@
     "columnOrder": ["column-1", "column-2", "column-3"],
     "holdTasks": [
       {
-        "id": "task-4",
+        "id": "task-5",
         "content": "Take out the garbage",
         "priority": "low"
       },
       {
-        "id": "task-5",
+        "id": "task-6",
         "content": "Watch my favorite show",
         "priority": "high"
       },
       {
-        "id": "task-6",
+        "id": "task-7",
         "content": "Charge my phone"
       }
     ]

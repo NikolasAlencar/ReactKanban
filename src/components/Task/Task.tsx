@@ -2,10 +2,15 @@ import { Draggable } from "react-beautiful-dnd";
 import { Task } from "../../models/ITask";
 import { Container, StyledP, StyledPriority, StyledSvg } from "./Task.style";
 
-const NewTask = ({ task, index }: { task: Task }) => {
+interface NewTaskProps {
+  task: Task;
+  index: number;
+}
+
+const NewTask = ({ task, index }: NewTaskProps) => {
   return (
     <Draggable draggableId={task.id} index={index}>
-      {(provided, snapshot) => (
+      {(provided) => (
         <Container
           ref={provided.innerRef}
           {...provided.draggableProps}
