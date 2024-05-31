@@ -30,3 +30,7 @@ export const ToggleBall = styled.div<{ isDark: boolean }>`
   left: ${({ isDark }) => (isDark ? "35px" : "5px")};
   transition: all 0.25s linear;
 `;
+
+export const StyledEmote = styled.span`
+  
+`
