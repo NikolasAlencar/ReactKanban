@@ -2,13 +2,11 @@ import {
   DragDropContext,
   DraggableLocation,
   DropResult,
-  Droppable,
 } from "react-beautiful-dnd";
 import { Card } from "../../pages/Home/Home.style";
-import NewColumn from "../Column/Column";
-import { StyledTitle } from "../Column/Column.style";
-import NewTask from "../Task/Task";
 import { InitialData } from "../../models/IInitialData";
+import NewColumn from "../Column/Column";
+import HoldTasks from "../HoldTasks/HoldTasks";
 
 interface BoardProps {
   initialData: InitialData;
@@ -45,7 +43,9 @@ const Board = ({ initialData, setDataBoard }: BoardProps) => {
     source: DraggableLocation,
     draggableId: string
   ) => {
-    const sourceIndex = newBoard.holdTasks.findIndex((task) => task.id === draggableId);
+    const sourceIndex = newBoard.holdTasks.findIndex(
+      (task) => task.id === draggableId
+    );
 
     if (sourceIndex > -1) {
       moveHoldTaskToColumn(newBoard, destination, sourceIndex);
@@ -61,7 +61,11 @@ const Board = ({ initialData, setDataBoard }: BoardProps) => {
     draggableId: string
   ) => {
     const sourceTaskIds = getSourceTaskIds(newBoard, source, draggableId);
-    const destinationTaskIds = getDestinationTaskIds(newBoard, destination, draggableId);
+    const destinationTaskIds = getDestinationTaskIds(
+      newBoard,
+      destination,
+      draggableId
+    );
 
     newBoard.columns[source.droppableId].taskIds = sourceTaskIds;
     newBoard.columns[destination.droppableId].taskIds = destinationTaskIds;
@@ -130,27 +134,7 @@ const Board = ({ initialData, setDataBoard }: BoardProps) => {
         })}
       </Card>
 
-      <Card style={{ display: "block" }}>
-        <Droppable droppableId="holdTasks">
-          {(provided) => (
-            <>
-              <StyledTitle style={{ marginBottom: "1rem" }}>
-                Hold Tasks
-              </StyledTitle>
-              <div
-                style={{ display: "flex" }}
-                ref={provided.innerRef}
-                {...provided.droppableProps}
-              >
-                {initialData.holdTasks.map((task, index) => (
-                  <NewTask key={task.id} task={task} index={index} />
-                ))}
-                {provided.placeholder}
-              </div>
-            </>
-          )}
-        </Droppable>
-      </Card>
+      <HoldTasks holdTasks={initialData.holdTasks}/>
     </DragDropContext>
   );
 };
