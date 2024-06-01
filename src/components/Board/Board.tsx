@@ -36,30 +36,47 @@ const Board = ({ initialData, setDataBoard }: BoardProps) => {
 
       const newBoard = { ...initialData };
 
-      const sourceTaskIds = getSourceTaskIds(source, draggableId);
+      if (
+        source.droppableId === "holdTasks" ||
+        destination.droppableId === "holdTasks"
+      ) {
+        const sourceIndex = newBoard.holdTasks.findIndex(
+          (task) => task.id === draggableId
+        );
 
-      const destinationTaskIds = getDestinationTaskIds(
-        destination,
-        draggableId
-      );
+        if (sourceIndex > -1) {
+          newBoard.tasks[newBoard.holdTasks[sourceIndex].id] =
+            newBoard.holdTasks[sourceIndex];
 
-      newBoard.columns[source.droppableId].taskIds = sourceTaskIds;
+          newBoard.columns[destination.droppableId].taskIds.push(
+            newBoard.holdTasks[sourceIndex].id
+          );
 
-      newBoard.columns[destination.droppableId].taskIds = destinationTaskIds;
+          newBoard.holdTasks.splice(sourceIndex, 1);
+        } else{
+          newBoard.holdTasks.push(newBoard.tasks[draggableId])
+          delete newBoard.tasks[draggableId]
+          const sourceIndex = newBoard.columns[source.droppableId].taskIds.indexOf(draggableId);
+          newBoard.columns[source.droppableId].taskIds.splice(sourceIndex, 1);
+        }
+
+        return newBoard;
+      } else {
+        const sourceTaskIds = getSourceTaskIds(source, draggableId);
+        const destinationTaskIds = getDestinationTaskIds(
+          destination,
+          draggableId
+        );
+
+        newBoard.columns[source.droppableId].taskIds = sourceTaskIds;
+        newBoard.columns[destination.droppableId].taskIds = destinationTaskIds;
+      }
 
       return newBoard;
     });
   }
 
   function getSourceTaskIds(source: DraggableLocation, draggableId: string) {
-    // if (source.droppableId === "holdTasks") {
-    //   const sourceTaskIds = Array.from(initialData?.holdTasks);
-
-    //   const sourceIndex = sourceTaskIds.findIndex(task => task.id === draggableId);
-
-    //   return sourceTaskIds[sourceIndex].id;
-    // }
-
     const sourceTaskIds = Array.from(
       initialData?.columns[source.droppableId].taskIds
     );
