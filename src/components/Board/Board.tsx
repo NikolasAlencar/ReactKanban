@@ -16,92 +16,106 @@ interface BoardProps {
 }
 
 const Board = ({ initialData, setDataBoard }: BoardProps) => {
-  function onDragEnd(result: DropResult) {
+  const onDragEnd = (result: DropResult) => {
     const { destination, source, draggableId } = result;
 
-    if (!destination) return;
+    if (!destination || destination.droppableId === source.droppableId) return;
 
-    if (destination.droppableId === source.droppableId) return;
+    setDataBoard((currentData) => {
+      if (!currentData) return currentData;
 
-    moveTaskToColumn(destination, source, draggableId);
-  }
-
-  function moveTaskToColumn(
-    destination: DraggableLocation,
-    source: DraggableLocation,
-    draggableId: string
-  ) {
-    setDataBoard((initialData) => {
-      if (!initialData) return initialData;
-
-      const newBoard = { ...initialData };
+      const newBoard = { ...currentData };
 
       if (
         source.droppableId === "holdTasks" ||
         destination.droppableId === "holdTasks"
       ) {
-        const sourceIndex = newBoard.holdTasks.findIndex(
-          (task) => task.id === draggableId
-        );
-
-        if (sourceIndex > -1) {
-          newBoard.tasks[newBoard.holdTasks[sourceIndex].id] =
-            newBoard.holdTasks[sourceIndex];
-
-          newBoard.columns[destination.droppableId].taskIds.push(
-            newBoard.holdTasks[sourceIndex].id
-          );
-
-          newBoard.holdTasks.splice(sourceIndex, 1);
-        } else{
-          newBoard.holdTasks.push(newBoard.tasks[draggableId])
-          delete newBoard.tasks[draggableId]
-          const sourceIndex = newBoard.columns[source.droppableId].taskIds.indexOf(draggableId);
-          newBoard.columns[source.droppableId].taskIds.splice(sourceIndex, 1);
-        }
-
-        return newBoard;
+        handleHoldTaskMove(newBoard, destination, source, draggableId);
       } else {
-        const sourceTaskIds = getSourceTaskIds(source, draggableId);
-        const destinationTaskIds = getDestinationTaskIds(
-          destination,
-          draggableId
-        );
-
-        newBoard.columns[source.droppableId].taskIds = sourceTaskIds;
-        newBoard.columns[destination.droppableId].taskIds = destinationTaskIds;
+        handleColumnTaskMove(newBoard, destination, source, draggableId);
       }
 
       return newBoard;
     });
-  }
+  };
 
-  function getSourceTaskIds(source: DraggableLocation, draggableId: string) {
-    const sourceTaskIds = Array.from(
-      initialData?.columns[source.droppableId].taskIds
-    );
-
-    const sourceIndex = sourceTaskIds.indexOf(draggableId);
+  const handleHoldTaskMove = (
+    newBoard: InitialData,
+    destination: DraggableLocation,
+    source: DraggableLocation,
+    draggableId: string
+  ) => {
+    const sourceIndex = newBoard.holdTasks.findIndex((task) => task.id === draggableId);
 
     if (sourceIndex > -1) {
-      sourceTaskIds.splice(sourceIndex, 1);
+      moveHoldTaskToColumn(newBoard, destination, sourceIndex);
+    } else {
+      moveTaskToHoldTask(newBoard, draggableId, source);
     }
+  };
+
+  const handleColumnTaskMove = (
+    newBoard: InitialData,
+    destination: DraggableLocation,
+    source: DraggableLocation,
+    draggableId: string
+  ) => {
+    const sourceTaskIds = getSourceTaskIds(newBoard, source, draggableId);
+    const destinationTaskIds = getDestinationTaskIds(newBoard, destination, draggableId);
+
+    newBoard.columns[source.droppableId].taskIds = sourceTaskIds;
+    newBoard.columns[destination.droppableId].taskIds = destinationTaskIds;
+  };
+
+  const moveHoldTaskToColumn = (
+    newBoard: InitialData,
+    destination: DraggableLocation,
+    sourceIndex: number
+  ) => {
+    const task = newBoard.holdTasks[sourceIndex];
+
+    newBoard.tasks[task.id] = task;
+    newBoard.columns[destination.droppableId].taskIds.push(task.id);
+    newBoard.holdTasks.splice(sourceIndex, 1);
+  };
+
+  const moveTaskToHoldTask = (
+    newBoard: InitialData,
+    draggableId: string,
+    source: DraggableLocation
+  ) => {
+    const task = newBoard.tasks[draggableId];
+
+    newBoard.holdTasks.push(task);
+    delete newBoard.tasks[draggableId];
+
+    const sourceTaskIds = newBoard.columns[source.droppableId].taskIds;
+    const sourceIndex = sourceTaskIds.indexOf(draggableId);
+    sourceTaskIds.splice(sourceIndex, 1);
+  };
+
+  const getSourceTaskIds = (
+    newBoard: InitialData,
+    source: DraggableLocation,
+    draggableId: string
+  ) => {
+    const sourceTaskIds = Array.from(newBoard.columns[source.droppableId].taskIds);
+    const sourceIndex = sourceTaskIds.indexOf(draggableId);
+
+    if (sourceIndex > -1) sourceTaskIds.splice(sourceIndex, 1);
 
     return sourceTaskIds;
-  }
+  };
 
-  function getDestinationTaskIds(
+  const getDestinationTaskIds = (
+    newBoard: InitialData,
     destination: DraggableLocation,
     draggableId: string
-  ) {
-    const destinationTaskIds = Array.from(
-      initialData?.columns[destination.droppableId].taskIds
-    );
-
+  ) => {
+    const destinationTaskIds = Array.from(newBoard.columns[destination.droppableId].taskIds);
     destinationTaskIds.push(draggableId);
-
     return destinationTaskIds;
-  }
+  };
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
@@ -128,10 +142,9 @@ const Board = ({ initialData, setDataBoard }: BoardProps) => {
                 ref={provided.innerRef}
                 {...provided.droppableProps}
               >
-                {initialData.holdTasks &&
-                  initialData.holdTasks.map((task, index) => (
-                    <NewTask key={task.id} task={task} index={index} />
-                  ))}
+                {initialData.holdTasks.map((task, index) => (
+                  <NewTask key={task.id} task={task} index={index} />
+                ))}
                 {provided.placeholder}
               </div>
             </>
