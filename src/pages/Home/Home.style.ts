@@ -3,6 +3,6 @@ import { StyledCard } from "../../components/Card/Card.style";
 
 export const Card = styled(StyledCard)`
   height: unset;
-  justify-content: space-between;
+  justify-content: space-around;
   gap: 1rem;
 `;

@@ -17,6 +17,9 @@ export const StyledContainer = styled.div`
 export const StyledTitle = styled.p`
   font-size: 18px;
   font-family: "Comic Sans MS";
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `;
 
 export const StyledSpan = styled(StyledTitle).attrs({ as: "span" })`
