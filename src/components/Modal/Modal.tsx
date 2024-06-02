@@ -1,7 +1,25 @@
-import { StyledModalContainer } from "./Modal.style";
+import {
+  CloseModal,
+  RelativeContainer,
+  StyledModalContainer,
+} from "./Modal.style";
 
-const Modal = ({ children }: { children: React.ReactNode }) => {
-  return <StyledModalContainer>{children}</StyledModalContainer>;
+interface ModalProps {
+  children: React.ReactNode;
+  setHandleModal?: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const Modal = ({ children, setHandleModal }: ModalProps) => {
+  return (
+    <StyledModalContainer>
+      <RelativeContainer>
+        {setHandleModal && (
+          <CloseModal onClick={() => setHandleModal(false)}>x</CloseModal>
+        )}
+        {children}
+      </RelativeContainer>
+    </StyledModalContainer>
+  );
 };
 
 export default Modal;
