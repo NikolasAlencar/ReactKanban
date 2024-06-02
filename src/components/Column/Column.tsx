@@ -8,8 +8,10 @@ import {
   StyledContainer,
   StyledSpan,
 } from "./Column.style";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { UserContext } from "../../contexts/UserContext";
+import Modal from "../Modal/Modal";
+import TaskForm from "../TaskForm/TaskForm";
 
 interface NewColumnProps {
   column: Column;
@@ -17,7 +19,8 @@ interface NewColumnProps {
 }
 
 const NewColumn = ({ column, tasks }: NewColumnProps) => {
-  const { setDataBoard } = useContext(UserContext);
+  const { dataBoard, setDataBoard } = useContext(UserContext);
+  const [handleModal, setHandleModal] = useState(false);
 
   const deleteColumn = (columnId: string) => {
     setDataBoard((prevDataBoard) => {
@@ -41,32 +44,59 @@ const NewColumn = ({ column, tasks }: NewColumnProps) => {
     });
   };
 
+  const findMaxTaskId = (tasks: Task[], holdTasks: Task[] = []): string => {
+    const allTasks = [...tasks, ...holdTasks];
+
+    let maxId = 0;
+
+    allTasks.forEach((task) => {
+      const idNumber = parseInt(task.id.replace("task-", ""));
+      if (idNumber > maxId) {
+        maxId = idNumber;
+      }
+    });
+
+    return `task-${maxId + 1}`;
+  };
+
   return (
-    <StyledColumn>
-      <StyledTitle>
-        {column.author}
-        <StyledSpan onClick={() => deleteColumn(column.id)}>x</StyledSpan>
-      </StyledTitle>
-      <Droppable droppableId={column.id}>
-        {(provided) => (
-          <>
-            <StyledContainer
-              ref={provided.innerRef}
-              {...provided.droppableProps}
-            >
-              <StyledTitle>
-                {column.title} | {tasks.length}
-              </StyledTitle>
-              {tasks.map((task, index) => (
-                <NewTask key={task.id} task={task} index={index} />
-              ))}
-              {provided.placeholder}
-            </StyledContainer>
-            <StyledSpan>+</StyledSpan>
-          </>
-        )}
-      </Droppable>
-    </StyledColumn>
+    <>
+      <StyledColumn>
+        <StyledTitle>
+          {column.author}
+          <StyledSpan onClick={() => deleteColumn(column.id)}>x</StyledSpan>
+        </StyledTitle>
+        <Droppable droppableId={column.id}>
+          {(provided) => (
+            <>
+              <StyledContainer
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+              >
+                <StyledTitle>
+                  {column.title} | {tasks.length}
+                </StyledTitle>
+                {tasks.map((task, index) => (
+                  <NewTask key={task.id} task={task} index={index} />
+                ))}
+                {provided.placeholder}
+              </StyledContainer>
+              <StyledSpan onClick={() => setHandleModal(true)}>+</StyledSpan>
+            </>
+          )}
+        </Droppable>
+      </StyledColumn>
+
+      {handleModal && (
+        <Modal setHandleModal={setHandleModal}>
+          <TaskForm
+            id={findMaxTaskId(tasks, dataBoard?.holdTasks)}
+            setHandleModal={setHandleModal}
+            column={column}
+          />
+        </Modal>
+      )}
+    </>
   );
 };
 
