@@ -88,6 +88,11 @@ const Board = ({ initialData, setDataBoard }: BoardProps) => {
     draggableId: string,
     source: DraggableLocation
   ) => {
+    if (newBoard.holdTasks.length === 4) {
+      window.alert("Hold Tasks está com sua capacidade máxima");
+      return;
+    }
+
     const task = newBoard.tasks[draggableId];
 
     newBoard.holdTasks.push(task);
@@ -103,7 +108,9 @@ const Board = ({ initialData, setDataBoard }: BoardProps) => {
     source: DraggableLocation,
     draggableId: string
   ) => {
-    const sourceTaskIds = Array.from(newBoard.columns[source.droppableId].taskIds);
+    const sourceTaskIds = Array.from(
+      newBoard.columns[source.droppableId].taskIds
+    );
     const sourceIndex = sourceTaskIds.indexOf(draggableId);
 
     if (sourceIndex > -1) sourceTaskIds.splice(sourceIndex, 1);
@@ -116,7 +123,9 @@ const Board = ({ initialData, setDataBoard }: BoardProps) => {
     destination: DraggableLocation,
     draggableId: string
   ) => {
-    const destinationTaskIds = Array.from(newBoard.columns[destination.droppableId].taskIds);
+    const destinationTaskIds = Array.from(
+      newBoard.columns[destination.droppableId].taskIds
+    );
     destinationTaskIds.push(draggableId);
     return destinationTaskIds;
   };
@@ -134,7 +143,7 @@ const Board = ({ initialData, setDataBoard }: BoardProps) => {
         })}
       </Card>
 
-      <HoldTasks holdTasks={initialData.holdTasks}/>
+      <HoldTasks holdTasks={initialData.holdTasks} />
     </DragDropContext>
   );
 };
