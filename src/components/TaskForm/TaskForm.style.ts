@@ -5,7 +5,7 @@ export const StyledForm = styled.form`
   flex-direction: column;
   gap: 10px;
   padding: 20px;
-  background: #fff;
+  background: ${(props) => props.theme.body};
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 `;
@@ -28,8 +28,8 @@ export const StyledSelect = styled.select`
 
 export const StyledButton = styled.button`
   padding: 10px;
-  background: #007bff;
-  color: white;
+  background: #ffe57f;
+  color: black;
   border: none;
   border-radius: 4px;
   cursor: pointer;

@@ -8,14 +8,8 @@ import {
 } from "./TaskForm.style";
 import { UserContext } from "../../contexts/UserContext";
 import { Column } from "../../models/IColumn";
-
-export type Task = {
-  id: string;
-  content: string;
-  author?: string;
-  index?: number;
-  priority: "medium" | "high" | "low";
-};
+import { Task } from "../../models/ITask";
+import { StyledTitle } from "../Column/Column.style";
 
 type TaskFormProps = {
   id: string;
@@ -30,7 +24,7 @@ const TaskForm = ({ id, setHandleModal, column }: TaskFormProps) => {
     id,
     content: "",
     author: "",
-    priority: "low"
+    priority: "low",
   });
 
   const handleChange = (
@@ -75,6 +69,7 @@ const TaskForm = ({ id, setHandleModal, column }: TaskFormProps) => {
 
   return (
     <StyledForm onSubmit={handleSubmit}>
+      <StyledTitle>Adicionar Task</StyledTitle>
       <StyledLabel htmlFor="content">Content</StyledLabel>
       <StyledInput
         type="text"
