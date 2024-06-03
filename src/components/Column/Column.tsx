@@ -36,6 +36,7 @@ const NewColumn = ({ column, tasks }: NewColumnProps) => {
   };
 
   const setNewColumns = (columnId: string, prevDataBoard: InitialData) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { [columnId]: _, ...newColumns } = prevDataBoard.columns;
 
     const newColumnOrder = prevDataBoard.columnOrder.filter(

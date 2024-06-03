@@ -8,17 +8,17 @@ import {
 import { UserContext } from "../../contexts/UserContext";
 import { Column } from "../../models/IColumn";
 import { StyledTitle } from "../Column/Column.style";
+import { InitialData } from "../../models/IInitialData";
 
 type ColumnFormProps = {
-  id: string;
   setHandleModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const ColumnForm = ({ id, setHandleModal }: ColumnFormProps) => {
+const ColumnForm = ({ setHandleModal }: ColumnFormProps) => {
   const { setDataBoard } = useContext(UserContext);
 
   const [column, setColumn] = useState<Column>({
-    id,
+    id: "",
     title: "",
     taskIds: [],
     author: "",
@@ -35,22 +35,56 @@ const ColumnForm = ({ id, setHandleModal }: ColumnFormProps) => {
     e.preventDefault();
 
     setDataBoard((prevDataBoard) => {
-      if (!prevDataBoard) return prevDataBoard;
+      if (!prevDataBoard || prevDataBoard.columnOrder.length === 3) {
+        window.alert("Não é possível adicionar mais colunas");
 
-      return prevDataBoard;
+        return prevDataBoard;
+      }
+
+      return setNewColumn(prevDataBoard);
     });
 
     setHandleModal(false);
   };
 
+  const setNewColumn = (prevDataBoard: InitialData) => {
+    const newColumn = {
+      ...column,
+      id: findMaxColumnId(prevDataBoard.columnOrder),
+    };
+
+    const newBoard = { ...prevDataBoard };
+
+    newBoard.columnOrder.push(newColumn.id);
+
+    newBoard.columns = { ...newBoard.columns, [newColumn.id]: newColumn };
+
+    return newBoard;
+  };
+
+  const findMaxColumnId = (columnOrder: string[]): string => {
+    const allColumns = [...columnOrder];
+
+    let maxId = 0;
+
+    allColumns.forEach((column) => {
+      const idNumber = parseInt(column.replace("column-", ""));
+      if (idNumber > maxId) {
+        maxId = idNumber;
+      }
+    });
+
+    return `column-${maxId + 1}`;
+  };
+
   return (
     <StyledForm onSubmit={handleSubmit}>
       <StyledTitle>Adicionar Coluna</StyledTitle>
-      <StyledLabel htmlFor="content">Title</StyledLabel>
+      <StyledLabel htmlFor="title">Title</StyledLabel>
       <StyledInput
         type="text"
-        id="content"
-        name="content"
+        id="title"
+        name="title"
         value={column.title}
         onChange={handleChange}
         required
