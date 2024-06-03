@@ -12,6 +12,7 @@ import { useContext, useState } from "react";
 import { UserContext } from "../../contexts/UserContext";
 import Modal from "../Modal/Modal";
 import TaskForm from "../TaskForm/TaskForm";
+import { InitialData } from "../../models/IInitialData";
 
 interface NewColumnProps {
   column: Column;
@@ -30,18 +31,22 @@ const NewColumn = ({ column, tasks }: NewColumnProps) => {
         return prevDataBoard;
       }
 
-      const { [columnId]: _, ...newColumns } = prevDataBoard.columns;
-
-      const newColumnOrder = prevDataBoard.columnOrder.filter(
-        (id) => id !== columnId
-      );
-
-      return {
-        ...prevDataBoard,
-        columns: newColumns,
-        columnOrder: newColumnOrder,
-      };
+      return setNewColumns(columnId, prevDataBoard);
     });
+  };
+
+  const setNewColumns = (columnId: string, prevDataBoard: InitialData) => {
+    const { [columnId]: _, ...newColumns } = prevDataBoard.columns;
+
+    const newColumnOrder = prevDataBoard.columnOrder.filter(
+      (id) => id !== columnId
+    );
+
+    return {
+      ...prevDataBoard,
+      columns: newColumns,
+      columnOrder: newColumnOrder,
+    };
   };
 
   const findMaxTaskId = (tasks: Task[], holdTasks: Task[] = []): string => {

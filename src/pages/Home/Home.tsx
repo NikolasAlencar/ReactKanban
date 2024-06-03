@@ -37,15 +37,19 @@ const Home = () => {
 
   return (
     <>
-      {error && (
-        <Modal>
-          <GenericError error={error} />
-        </Modal>
-      )}
+      <main>
+        {error && (
+          <Modal>
+            <GenericError error={error} />
+          </Modal>
+        )}
 
-      {loading && <LoadingSpinner />}
+        {loading && <LoadingSpinner />}
 
-      {dataBoard && <Board initialData={dataBoard} setDataBoard={setDataBoard} />}
+        {dataBoard && (
+          <Board initialData={dataBoard} setDataBoard={setDataBoard} />
+        )}
+      </main>
     </>
   );
 };

@@ -10,6 +10,7 @@ import { UserContext } from "../../contexts/UserContext";
 import { Column } from "../../models/IColumn";
 import { Task } from "../../models/ITask";
 import { StyledTitle } from "../Column/Column.style";
+import { InitialData } from "../../models/IInitialData";
 
 type TaskFormProps = {
   id: string;
@@ -42,29 +43,33 @@ const TaskForm = ({ id, setHandleModal, column }: TaskFormProps) => {
 
       const newTask = { ...task };
 
-      const newTasks = {
-        ...prevDataBoard.tasks,
-        [newTask.id]: newTask,
-      };
-
-      const newColumn = {
-        ...column,
-        taskIds: [...column.taskIds, newTask.id],
-      };
-
-      const newColumns = {
-        ...prevDataBoard.columns,
-        [column.id]: newColumn,
-      };
-
-      return {
-        ...prevDataBoard,
-        tasks: newTasks,
-        columns: newColumns,
-      };
+      return setNewBoard(newTask, prevDataBoard);
     });
 
     setHandleModal(false);
+  };
+
+  const setNewBoard = (newTask: Task, prevDataBoard: InitialData) => {
+    const newTasks = {
+      ...prevDataBoard.tasks,
+      [newTask.id]: newTask,
+    };
+
+    const newColumn = {
+      ...column,
+      taskIds: [...column.taskIds, newTask.id],
+    };
+
+    const newColumns = {
+      ...prevDataBoard.columns,
+      [column.id]: newColumn,
+    };
+
+    return {
+      ...prevDataBoard,
+      tasks: newTasks,
+      columns: newColumns,
+    };
   };
 
   return (
