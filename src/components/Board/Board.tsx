@@ -7,6 +7,10 @@ import { Card } from "../../pages/Home/Home.style";
 import { InitialData } from "../../models/IInitialData";
 import NewColumn from "../Column/Column";
 import HoldTasks from "../HoldTasks/HoldTasks";
+import { StyledSpan, StyledTitle } from "../Column/Column.style";
+import { useState } from "react";
+import ColumnForm from "../ColumnForm/ColumnForm";
+import Modal from "../Modal/Modal";
 
 interface BoardProps {
   initialData: InitialData;
@@ -14,6 +18,8 @@ interface BoardProps {
 }
 
 const Board = ({ initialData, setDataBoard }: BoardProps) => {
+  const [handleModal, setHandleModal] = useState(false);
+
   const onDragEnd = (result: DropResult) => {
     const { destination, source, draggableId } = result;
 
@@ -89,8 +95,7 @@ const Board = ({ initialData, setDataBoard }: BoardProps) => {
     source: DraggableLocation
   ) => {
     if (newBoard.holdTasks.length === 4) {
-      window.alert("Hold Tasks está com sua capacidade máxima");
-      return;
+      return window.alert("Hold Tasks está com sua capacidade máxima");
     }
 
     const task = newBoard.tasks[draggableId];
@@ -131,20 +136,35 @@ const Board = ({ initialData, setDataBoard }: BoardProps) => {
   };
 
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      <Card>
-        {initialData.columnOrder.map((columnId) => {
-          const column = initialData.columns[columnId];
-          const tasks = column.taskIds.map(
-            (taskId) => initialData.tasks[taskId]
-          );
+    <>
+      {handleModal && (
+        <Modal setHandleModal={setHandleModal}>
+          <ColumnForm setHandleModal={setHandleModal} />
+        </Modal>
+      )}
 
-          return <NewColumn key={column.id} column={column} tasks={tasks} />;
-        })}
-      </Card>
+      <StyledTitle
+        style={{ justifyContent: "center", cursor: "pointer" }}
+        onClick={() => setHandleModal(true)}
+      >
+        Adicionar nova coluna
+        <StyledSpan>+</StyledSpan>
+      </StyledTitle>
 
-      <HoldTasks holdTasks={initialData.holdTasks} />
-    </DragDropContext>
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Card style={{ marginTop: "0.5rem" }}>
+          {initialData.columnOrder.map((columnId) => {
+            const column = initialData.columns[columnId];
+            const tasks = column.taskIds.map(
+              (taskId) => initialData.tasks[taskId]
+            );
+
+            return <NewColumn key={column.id} column={column} tasks={tasks} />;
+          })}
+        </Card>
+        <HoldTasks holdTasks={initialData.holdTasks} />
+      </DragDropContext>
+    </>
   );
 };
 
